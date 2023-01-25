@@ -62,7 +62,25 @@ void print_list(node_t* head){
         print_node(p->next);
         p->next = p->next->next;
     }
+    free_node(p);
 }
+
+int free_list(node_t* head){
+    node_t* p = new_node(0, 0, head);
+    node_t* temp = new_node(0, 0, NULL);
+    while(p->next != NULL){
+        if (p->next->next == NULL) {
+            free_node(temp);
+        }
+        else {
+            temp->next = p->next->next;
+        }
+        free_node(p->next);
+        p->next = temp->next;
+    }
+    return 1;
+}
+
 int main()
 {
     int test_years[5] = {2018, 2017, 2016, 2015, 2014};
