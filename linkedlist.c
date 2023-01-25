@@ -39,6 +39,21 @@ void free_node(node_t* node){
 	free(node);
 }
 
+node_t* build_list(int* wins, int* years, int size) {
+
+    node_t* node_array[size];
+
+    for ( int i = 0; i < size; i++ ) {
+        node_array[i] = new_node(wins[i], years[i], NULL);
+    }
+
+    for ( int i = size-1; i > 0; i-- ) {
+        node_array[i-1]->next = node_array[i];
+    }
+
+    return node_array[0];
+}
+
 int main()
 {
     int test_years[5] = {2018, 2017, 2016, 2015, 2014};
@@ -46,9 +61,16 @@ int main()
 
     // TODO: Implement me!
     node_t* head = new_node(10, 5, NULL);
+    node_t* new = new_node(1, 2, NULL);
+
+    head->next = new;
+    
+
     print_node(head);
+    print_node(new);
 
     free_node(head);
+    free_node(new);
 
     return 0;
 }
