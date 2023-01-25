@@ -29,7 +29,7 @@ node_t* new_node(int wins, int year, node_t* next) {
 }
 
 void print_node(node_t* node) {
-    printf("wins: %d, year: %d", node->num_wins, node->year);
+    printf("wins: %d year: %d\n", node->num_wins, node->year);
 }
 
 void free_node(node_t* node){
@@ -54,6 +54,15 @@ node_t* build_list(int* wins, int* years, int size) {
     return node_array[0];
 }
 
+void print_list(node_t* head){
+    node_t* p = new_node(0, 0, head);
+    
+    while(p->next != NULL){
+
+        print_node(p->next);
+        p->next = p->next->next;
+    }
+}
 int main()
 {
     int test_years[5] = {2018, 2017, 2016, 2015, 2014};
@@ -64,13 +73,17 @@ int main()
     node_t* new = new_node(1, 2, NULL);
 
     head->next = new;
-    
 
+    //test for print_list
+    head = build_list(test_wins, test_years, 5);
+    print_list(head);
+    
+    /*
     print_node(head);
     print_node(new);
 
     free_node(head);
     free_node(new);
-
+    */
     return 0;
 }
