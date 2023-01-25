@@ -96,12 +96,12 @@ int main()
     head = build_list(test_wins, test_years, 5);
     print_list(head);
     
-    /*
+    
     print_node(head);
     print_node(new);
 
     free_node(head);
     free_node(new);
-    */
+    
     return 0;
 }
