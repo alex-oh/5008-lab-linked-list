@@ -36,16 +36,6 @@ void free_node(node_t* node){
 	if (node == NULL){
 		return;
 	}
-    /*
-	// free the data inside vector
-	if (&(node->num_wins) != NULL){
-		free(&(node->num_wins));
-	}
-    if (&(node->year) != NULL) {
-        free(&(node->year));
-    }
-    */
-	// free node
 	free(node);
 }
 
