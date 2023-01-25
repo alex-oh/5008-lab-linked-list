@@ -78,6 +78,7 @@ int free_list(node_t* head){
         free_node(p->next);
         p->next = temp->next;
     }
+    free_node(p);
     return 1;
 }
 
