@@ -40,25 +40,29 @@ void free_node(node_t* node){
 }
 
 node_t* build_list(int* wins, int* years, int size) {
-
-    node_t* node_array[size];
-
-    for ( int i = 0; i < size; i++ ) {
-        node_array[i] = new_node(wins[i], years[i], NULL);
+    node_t* head = new_node(0, 0, NULL);
+    node_t* p = new_node(0, 0, head);
+    int i = 0;
+    while (i < size){
+        if(i == 0) {
+            head->next = new_node(wins[i], years[i], NULL);
+            p->next = head->next;
+        }
+        else {
+            p->next->next = new_node(wins[i], years[i], NULL);
+            p->next = p->next->next;
+        }
+        i++;
     }
-
-    for ( int i = size-1; i > 0; i-- ) {
-        node_array[i-1]->next = node_array[i];
-    }
-
-    return node_array[0];
+    free_node(p);
+    //returns head pointing to first element of the list
+    return head;
 }
 
 void print_list(node_t* head){
     node_t* p = new_node(0, 0, head);
     
     while(p->next != NULL){
-
         print_node(p->next);
         p->next = p->next->next;
     }
@@ -68,16 +72,23 @@ void print_list(node_t* head){
 int free_list(node_t* head){
     node_t* p = new_node(0, 0, head);
     node_t* temp = new_node(0, 0, NULL);
-    while(p->next != NULL){
-        if (p->next->next == NULL) {
-            free_node(temp);
-        }
-        else {
+    while(p->next->next != NULL){
+        if(p->next->next != NULL) {
             temp->next = p->next->next;
         }
+        // free the node p is pointing at
         free_node(p->next);
-        p->next = temp->next;
+        // point p at the same node temp is pointing at
+        if(temp->next != NULL && temp!= NULL){
+            p->next = temp->next;
+        }
+        else {
+            printf("exit the lOOP\n");
+            p->next = NULL;
+        }
     }
+    free_node(temp);
+    free_node(p->next);
     free_node(p);
     return 1;
 }
@@ -88,21 +99,14 @@ int main()
     int test_wins[5] = {108, 93, 93, 78, 71};
 
     // TODO: Implement me!
-    node_t* head = new_node(10, 5, NULL);
-    node_t* new = new_node(1, 2, NULL);
+    // build list
+    node_t* head = build_list(test_wins, test_years, 5);
+    // print list. since head is pointing to the first element,
+    // we pass head->next into print_list
+    print_list(head->next);
 
-    head->next = new;
 
-    //test for print_list
-    head = build_list(test_wins, test_years, 5);
-    print_list(head);
-    
-    
-    print_node(head);
-    print_node(new);
-
-    free_node(head);
-    free_node(new);
+    free_list(head);
     
     return 0;
 }
