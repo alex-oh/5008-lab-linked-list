@@ -20,10 +20,16 @@ typedef struct node {
 node_t* new_node(int wins, int year, node_t* next) {
 
    node_t* newNode = (node_t*) malloc(sizeof(node_t));// allocate a new node, we have to put it on the heap! 
+    // Every time malloc is called check if equal to NULL
 
-   newNode->num_wins = wins;
-   newNode->year = year;
-   newNode->next = next; 
+    if ( newNode != NULL ) {
+        newNode->num_wins = wins;
+        newNode->year = year;
+
+        // does this help?
+        // next = (node_t*) malloc(sizeof(node_t));
+        newNode->next = next;
+    } 
 
    return newNode;
 }
@@ -36,7 +42,9 @@ void free_node(node_t* node){
 	if (node == NULL){
 		return;
 	}
+
 	free(node);
+    // free(node->next);
 }
 
 node_t* build_list(int* wins, int* years, int size) {
@@ -92,11 +100,11 @@ int main()
     node_t* new = new_node(1, 2, NULL);
 
     head->next = new;
+    free_node(head);
 
-    //test for print_list
+    //test for print_listso put
     head = build_list(test_wins, test_years, 5);
     print_list(head);
-    
     
     print_node(head);
     print_node(new);
